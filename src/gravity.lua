@@ -36,7 +36,12 @@ function gravity:update(dt)
 end
 
 function gravity:draw()
-	for k,v in pairs(self.planets) do
+	local sort =  function(a,b) return a.radius > b.radius end
+	local ordered = {}
+	for k,v in pairs(self.planets) do table.insert(ordered, v) end
+	table.sort(ordered, sort)
+
+	for k,v in pairs(ordered) do
 		v:draw()
 	end
 end
