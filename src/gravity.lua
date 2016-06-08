@@ -1,8 +1,6 @@
 local gravity = {}
 gravity.planets = {}
 
-
-
 function gravity:add(planet)
 	planet.index = #self.planets + 1
 	planet.id = (planet.color[1] + planet.color[2] + planet.color[3]) / 3
@@ -18,6 +16,7 @@ function gravity:getByID(id)
 end
 
 function gravity:update(dt)
+	dt = dt * debug.settings.timescale
 	for k,planet in pairs(self.planets) do
 		for j, other in pairs(self.planets) do
 			if other ~= planet then
@@ -25,8 +24,8 @@ function gravity:update(dt)
 				local yDistance = planet.y-other.y
 				
 				
-				planet.xvel = planet.xvel - xDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius / 2
-				planet.yvel = planet.yvel - yDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius / 2
+				planet.xvel = planet.xvel - xDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius --/ 2
+				planet.yvel = planet.yvel - yDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius --/ 2
 			end
 		end
 	end

@@ -23,7 +23,6 @@ function love.load()
 	math.randomseed(os.time())
 	debug:load()
 	screenWidth, screenHeight = love.window.getMode()
-	print("Hello from Love :D")
 end
 
 function love.update(dt)
