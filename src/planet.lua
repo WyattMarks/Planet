@@ -23,12 +23,14 @@ function planet:update(dt)
 	self.y = self.y + self.yvel * dt
 	
 	if self.life > .05 then
-		self.life = self.life - .05
-		table.insert(self.trail, 1, self.y)
-		table.insert(self.trail, 1, self.x)
-		if #self.trail > 80 and debug.settings.traillimit then
-			for i=81, #self.trail do
-				self.trail[i] = nil
+		if #self.trail < 1 or math.sqrt((self.trail[2] - self.y)^2 + (self.trail[1] - self.x)^2) > 6 then
+			self.life = self.life - .05
+			table.insert(self.trail, 1, self.y)
+			table.insert(self.trail, 1, self.x)
+			if #self.trail > 80 and debug.settings.traillimit then
+				for i=81, #self.trail do
+					self.trail[i] = nil
+				end
 			end
 		end
 	end
