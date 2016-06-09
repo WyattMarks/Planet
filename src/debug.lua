@@ -1,5 +1,6 @@
 local debug = {}
 debug.variables = {}
+debug.added = {}
 debug.binds = {}
 debug.offset = 10
 debug.settings = {}
@@ -10,18 +11,26 @@ debug.settings = {}
 --self.binds["down"] = {"(^/v) Timescale", "incremental", 2, {'up', 'down', .1}}
 
 function debug:add(key, value, changeable, v)
-	self.variables[key] = value 
+	self.variables[key] = value
+	local added = false
+	for k,v in pairs(self.added) do
+		if v == key then added = true end
+	end
+
+	if not added then self.added[#self.added + 1] = key end
 	
 	if changeable == "toggle" then
 		self.binds[v] = {key, changeable}
 		local c = string.find(key, ")")
 		key = key:sub(c+2):lower()
+		key = key:gsub(' ', '')
 		self.settings[key] = value
 	elseif changeable == "incremental" then
 		self.binds[v[1]] = {key, changeable, 1, v}
 		self.binds[v[2]] = {key, changeable, 2, v}
 		local c = string.find(key, ")")
 		key = key:sub(c+2):lower()
+		key = key:gsub(' ', '')
 		self.settings[key] = value
 	end
 end
@@ -29,7 +38,8 @@ end
 function debug:load()
 	self:add('(F1) Velocity', false, "toggle", 'f1')
 	self:add('(F2) Trail', true, 'toggle', 'f2')
-	self:add('(F3) Collision', true, 'toggle', 'f3')
+	self:add('(F3) Trail Limit', true, 'toggle', 'f3')
+	self:add('(F4) Collision', true, 'toggle', 'f4')
 	self:add('(^/v) Timescale', 1, 'incremental', {'up', 'down', .1})
 	self.font = love.graphics.newFont(20)
 end
@@ -38,8 +48,9 @@ function debug:draw()
 	love.graphics.setColor(255,255,255)
 	love.graphics.setFont(self.font)
 	local y = 10
-	local i = 1
-	for k,v in pairs(self.variables) do
+	for i=1, #self.added do
+		local k = self.added[i]
+		local v = self.variables[k]
 		local str = tostring(k)
 		if v ~= '' then
 			str = str .. ":"
@@ -51,8 +62,6 @@ function debug:draw()
 		love.graphics.print(str, screenWidth - self.offset * 2 - self.font:getWidth(v) - self.font:getWidth(str), y)
 		
 		y = y + self.font:getHeight() + 2
-
-		i = i + 1
 	end
 end
 

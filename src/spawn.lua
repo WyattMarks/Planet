@@ -22,10 +22,16 @@ function spawn:update(dt)
 			local xDis = math.abs(self.endPos[1]-self.startPos[1])
 			local yDis = math.abs(self.endPos[2]-self.startPos[2])
 			local radius = math.sqrt(xDis^2 + yDis^2)
+			local color = {math.random(0,255), math.random(0,255), math.random(0,255)}
+
+			while (color[1] + color[2] + color[3]) / 3 < 100 do
+				color = {math.random(0,255), math.random(0,255), math.random(0,255)}
+			end
+
 			xDis = x-self.startPos[1]
 			yDis = y-self.startPos[2]
 			
-			local p = planet:spawn{radius = radius, x = self.startPos[1], y = self.startPos[2], xvel = xDis, yvel = yDis, color = {math.random(0,255), math.random(0,255), math.random(0,255)}}
+			local p = planet:spawn{radius = radius, x = self.startPos[1], y = self.startPos[2], xvel = xDis, yvel = yDis, color = color}
 			gravity:add(p)
 			self.wasDown = 3
 		end
@@ -46,8 +52,13 @@ function spawn:update(dt)
 			local xDis = math.abs(self.endPos[1]-self.startPos[1])
 			local yDis = math.abs(self.endPos[2]-self.startPos[2])
 			local radius = math.sqrt(xDis^2 + yDis^2)
+			local color = {math.random(0,255), math.random(0,255), math.random(0,255)}
+
+			while (color[1] + color[2] + color[3]) / 3 < 100 do
+				color = {math.random(0,255), math.random(0,255), math.random(0,255)}
+			end
 				
-			local p = planet:spawn{radius = radius, x = self.startPos[1], y = self.startPos[2], xvel = 0, yvel = 0, color = {math.random(0,255), math.random(0,255), math.random(0,255)}}
+			local p = planet:spawn{radius = radius, x = self.startPos[1], y = self.startPos[2], xvel = 0, yvel = 0, color}
 			gravity:add(p)
 			self.wasDown = 0
 		elseif love.keyboard.isDown('escape') then
