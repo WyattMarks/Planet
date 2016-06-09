@@ -5,8 +5,7 @@ planet.y = 100
 planet.xvel = 0
 planet.yvel = 0
 planet.color = {150,150,150}
-planet.life = 0
-planet.trail = {}
+planet.trail = {} --the trail points
 
 function planet:spawn(args)
 	local new = table.copy(self)
@@ -18,25 +17,25 @@ function planet:spawn(args)
 end
 
 function planet:update(dt)
-	self.life = self.life + dt
 	self.x = self.x + self.xvel * dt
 	self.y = self.y + self.yvel * dt
 	
-	if self.life > .05 then
-		if #self.trail < 1 or math.sqrt((self.trail[2] - self.y)^2 + (self.trail[1] - self.x)^2) > 6 then
-			self.life = self.life - .05
-			table.insert(self.trail, 1, self.y)
-			table.insert(self.trail, 1, self.x)
-			if #self.trail > 80 and debug.settings.traillimit then
-				for i=81, #self.trail do
-					self.trail[i] = nil
-				end
+	if #self.trail < 1 or math.sqrt((self.trail[2] - self.y)^2 + (self.trail[1] - self.x)^2) > 6 then --Haven't spawned any points or distance to last point > 6
+		table.insert(self.trail, 1, self.y)
+		table.insert(self.trail, 1, self.x)
+		local limit = 80
+		if not debug.settings.trail then 
+			limit = 0
+		end
+		if #self.trail > limit and debug.settings.traillimit then  --Only truncate the trail length if we have it set to limit their length, 80 is arbitrary
+			for i=limit+1, #self.trail do
+				self.trail[i] = nil
 			end
 		end
 	end
 end
 
-local function function tessellate(vertices)
+local tessellate = function(vertices)
    MIX_FACTOR = .5
    local new_vertices = {}
    new_vertices[#vertices*2] = 0
@@ -88,7 +87,7 @@ end
 
 function planet:draw()
 	love.graphics.setColor(math.max(0, self.color[1] - 20), math.max(0, self.color[2] - 20), math.max(0, self.color[3] - 20))
-	if debug.settings.trail and #self.trail > 4 then love.graphics.line(tessellate(self.trail)) end
+	if  #self.trail > 4 then love.graphics.line(tessellate(self.trail)) end
 	love.graphics.setColor(0,255,0)
 	if debug.settings.velocity then love.graphics.line(self.x, self.y, self.x + self.xvel, self.y + self.yvel) end
 	love.graphics.setColor(self.color)
