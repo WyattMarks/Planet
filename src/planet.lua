@@ -26,7 +26,7 @@ function planet:update(dt)
 		self.life = self.life - .05
 		table.insert(self.trail, 1, self.y)
 		table.insert(self.trail, 1, self.x)
-		if #self.trail > 80 then
+		if #self.trail > 80 and debug.settings.TrailLimit then
 			self.trail[81] = nil
 			self.trail[82] = nil
 		end

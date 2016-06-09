@@ -24,8 +24,8 @@ function gravity:update(dt)
 				local yDistance = planet.y-other.y
 				
 				
-				planet.xvel = planet.xvel - xDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius --/ 2
-				planet.yvel = planet.yvel - yDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius --/ 2
+				planet.xvel = planet.xvel - xDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius
+				planet.yvel = planet.yvel - yDistance/(math.sqrt(xDistance^2+yDistance^2)+1) * dt * other.radius
 			end
 		end
 	end
