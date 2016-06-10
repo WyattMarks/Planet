@@ -50,14 +50,17 @@ function planet:update(dt)
 	end
 end
 
-function planet:draw()
+function planet:drawPlanet()
+	love.graphics.setColor(self.color)
+	love.graphics.circle('fill', self.x, self.y, self.radius, self.radius * 4)
+
+end
+
+function planet:drawTrail()
 	love.graphics.setColor(math.max(0, self.color[1] - 20), math.max(0, self.color[2] - 20), math.max(0, self.color[3] - 20))
 	if  #self.trail > 4 then love.graphics.line(util:tessellate(self.trail)) end
 	love.graphics.setColor(0,255,0)
 	if debug.settings.velocity then love.graphics.line(self.x, self.y, self.x + self.xvel, self.y + self.yvel) end
-	love.graphics.setColor(self.color)
-	love.graphics.circle('fill', self.x, self.y, self.radius, self.radius * 4)
-
 end
 
 return planet

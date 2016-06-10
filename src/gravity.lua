@@ -42,7 +42,11 @@ function gravity:draw()
 	table.sort(ordered, sort)
 
 	for k,v in pairs(ordered) do
-		v:draw()
+		v:drawTrail()
+	end
+
+	for k,v in pairs(ordered) do
+		v:drawPlanet()
 	end
 end
 
