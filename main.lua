@@ -6,6 +6,7 @@ cam = require('src/cam')
 debug = require('src/debug')
 collision = require('src/collision')
 util = require('src/util')
+input = require("src/input")
 
 function table.copy(tbl)
 	local new = {}
@@ -27,6 +28,7 @@ function love.load()
 end
 
 function love.update(dt)
+	input:update(dt)
 	spawn:update(dt)
 	collision:update(dt)
 	gravity:update(dt)
@@ -51,5 +53,13 @@ function love.mousemoved(x,y,dx,dy)
 end
 
 function love.keypressed(key)
+	input:keypressed(key)
+end
+
+function love.keyreleased(key)
+	input:keyreleased(key)
+end
+
+function input:callback(key, isBeingHeld)
 	debug:keypressed(key)
 end
