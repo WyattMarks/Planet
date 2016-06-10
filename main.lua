@@ -5,6 +5,7 @@ spawn = require('src/spawn')
 cam = require('src/cam')
 debug = require('src/debug')
 collision = require('src/collision')
+util = require('src/util')
 
 function table.copy(tbl)
 	local new = {}
