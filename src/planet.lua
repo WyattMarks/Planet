@@ -42,7 +42,7 @@ function planet:update(dt)
 		if not debug.settings.trail then 
 			limit = 0
 		end
-		if #self.trail > limit and debug.settings.traillimit then  --Only truncate the trail length if we have it set to limit their length, 80 is arbitrary
+		if #self.trail > limit and (debug.settings.traillimit or not debug.settings.trail) then  --Only truncate the trail length if we have it set to limit their length, 80 is arbitrary
 			for i=limit+1, #self.trail do
 				self.trail[i] = nil
 			end
