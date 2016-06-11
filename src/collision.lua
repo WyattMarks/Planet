@@ -8,9 +8,7 @@ function collision:update(dt)
 	for k,planet in pairs(gravity.planets) do
 		for j, other in pairs(gravity.planets) do
 			if other ~= planet then
-				local xDistance = planet.x-other.x
-				local yDistance = planet.y-other.y
-				local distance = math.sqrt(xDistance^2 + yDistance^2)
+				local distance = util:getDistance(planet.x, planet.y, other.x, other.y)
 				
 				if distance < other.radius + planet.radius then
 					local big = planet.radius > other.radius and planet or other

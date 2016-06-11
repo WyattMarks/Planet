@@ -21,7 +21,8 @@ end
 function planet:checkTrail()
 	for i=1, #self.trail do 
 		if i % 2 == 0 then
-			if ((self.trail[i] - self.y)^2 + (self.trail[i-1] - self.x)^2) <= 36 then --If the point is 6 pixels close then return false (36 == 6^2, save a math.sqrt call)
+			local dis = util:getDistance(self.trail[i-1], self.trail[i], self.x, self.y)
+			if dis <= 6 then
 				return false
 			end
 		end

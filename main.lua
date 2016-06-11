@@ -62,4 +62,5 @@ end
 
 function input:callback(key, isBeingHeld)
 	debug:keypressed(key)
+	spawn:keypressed(key)
 end

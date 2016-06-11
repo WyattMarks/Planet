@@ -54,9 +54,8 @@ function cam:update(dt)
 	if spawn.wasDown == 0 and love.mouse.isDown(2) then
 		for k,planet in pairs(gravity.planets) do
 			local x,y = self:getMouseWorldPos()
-			local xDistance = planet.x-x
-			local yDistance = planet.y-y
-			local distance = math.sqrt(xDistance^2 + yDistance^2)
+
+			local distance = util:getDistance(x,y, planet.x, planet.y)
 			
 			if distance < planet.radius then
 				self:follow(planet)

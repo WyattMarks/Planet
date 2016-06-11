@@ -8,9 +8,7 @@ spawn.wasDown = 0
 
 function spawn:spawnPlanet(move, fixed)
 	local x,y = cam:getMouseWorldPos()
-	local xDis = math.abs(self.endPos[1]-self.startPos[1])
-	local yDis = math.abs(self.endPos[2]-self.startPos[2])
-	local radius = math.sqrt(xDis^2 + yDis^2)
+	local radius, xDis, yDis = util:getDistance(self.endPos[1], self.endPos[2], self.startPos[1], self.startPos[2])
 	local color = {math.random(0,255), math.random(0,255), math.random(0,255)}
 
 	while (color[1] + color[2] + color[3]) / 3 < 100 do
@@ -75,12 +73,27 @@ function spawn:draw()
 			y = self.endPos[2]
 		end
 		
-		local radius = math.sqrt(math.abs(x-self.startPos[1])^2 + math.abs(y-self.startPos[2])^2)
+		local radius = util:getDistance(x,y,self.startPos[1],self.startPos[2])
 		love.graphics.circle('line', self.startPos[1], self.startPos[2], radius)
 		
 		if self.wasDown == 2 then
 			local x2, y2 = cam:getMouseWorldPos()
 			love.graphics.line(self.startPos[1], self.startPos[2], x2, y2)
+		end
+	end
+end
+
+function spawn:keypressed(key)
+	if key == "delete" then
+		for i=1, #gravity.planets do
+			local x,y = cam:getMouseWorldPos()
+			if util:getDistance(x,y, gravity.planets[i].x, gravity.planets[i].y) < gravity.planets[i].radius then
+				if cam.following == gravity.planets[i].id then
+					cam:unfollow()
+				end
+
+				table.remove( gravity.planets, i )
+			end 
 		end
 	end
 end

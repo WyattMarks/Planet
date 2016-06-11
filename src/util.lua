@@ -50,5 +50,12 @@ function util:tessellate(vertices)
    return new_vertices
 end
 
+function util:getDistance(x,y,x2,y2) 
+    local xDis = math.abs(x-x2)
+    local yDis = math.abs(y-y2)
+
+    return math.sqrt(xDis^2 + yDis^2), xDis, yDis
+end
+
 
 return util
