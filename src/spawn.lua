@@ -93,6 +93,7 @@ function spawn:keypressed(key)
 				end
 
 				table.remove( gravity.planets, i )
+				break
 			end 
 		end
 	end
