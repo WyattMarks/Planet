@@ -7,6 +7,7 @@ planet.yvel = 0
 planet.color = {150,150,150}
 planet.lastTrail = 0
 planet.trail = {} --the trail points
+planet.fixed = false
 
 function planet:spawn(args)
 	local new = table.copy(self)
@@ -31,8 +32,10 @@ end
 
 function planet:update(dt)
 	self.lastTrail = self.lastTrail + dt
-	self.x = self.x + self.xvel * dt
-	self.y = self.y + self.yvel * dt
+	if not self.fixed then
+		self.x = self.x + self.xvel * dt
+		self.y = self.y + self.yvel * dt
+	end
 	
 	if self.lastTrail > .05 and self:checkTrail() then --Haven't spawned any points or distance to last point > 6
 		self.lastTrail = self.lastTrail - .05

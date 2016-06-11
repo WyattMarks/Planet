@@ -6,8 +6,28 @@ spawn.wasDown = 0
 
 
 
+function spawn:spawnPlanet(move, fixed)
+	local x,y = cam:getMouseWorldPos()
+	local xDis = math.abs(self.endPos[1]-self.startPos[1])
+	local yDis = math.abs(self.endPos[2]-self.startPos[2])
+	local radius = math.sqrt(xDis^2 + yDis^2)
+	local color = {math.random(0,255), math.random(0,255), math.random(0,255)}
 
+	while (color[1] + color[2] + color[3]) / 3 < 100 do
+		color = {math.random(0,255), math.random(0,255), math.random(0,255)}
+	end
 
+	xDis = x-self.startPos[1]
+	yDis = y-self.startPos[2]
+
+	if not move then
+		xDis = 0
+		yDis = 0
+	end
+			
+	local p = planet:spawn{radius = radius, x = self.startPos[1], y = self.startPos[2], xvel = xDis, yvel = yDis, color = color, fixed = fixed}
+	gravity:add(p)
+end
 
 
 function spawn:update(dt)
@@ -18,21 +38,7 @@ function spawn:update(dt)
 		end
 		
 		if self.wasDown == 2 then
-			local x,y = cam:getMouseWorldPos()
-			local xDis = math.abs(self.endPos[1]-self.startPos[1])
-			local yDis = math.abs(self.endPos[2]-self.startPos[2])
-			local radius = math.sqrt(xDis^2 + yDis^2)
-			local color = {math.random(0,255), math.random(0,255), math.random(0,255)}
-
-			while (color[1] + color[2] + color[3]) / 3 < 100 do
-				color = {math.random(0,255), math.random(0,255), math.random(0,255)}
-			end
-
-			xDis = x-self.startPos[1]
-			yDis = y-self.startPos[2]
-			
-			local p = planet:spawn{radius = radius, x = self.startPos[1], y = self.startPos[2], xvel = xDis, yvel = yDis, color = color}
-			gravity:add(p)
+			self:spawnPlanet(true, false)
 			self.wasDown = 3
 		end
 	else
@@ -48,18 +54,10 @@ function spawn:update(dt)
 	
 	if self.wasDown == 2 then
 		if love.mouse.isDown(2) then
-			local x,y = cam:getMouseWorldPos()
-			local xDis = math.abs(self.endPos[1]-self.startPos[1])
-			local yDis = math.abs(self.endPos[2]-self.startPos[2])
-			local radius = math.sqrt(xDis^2 + yDis^2)
-			local color = {math.random(0,255), math.random(0,255), math.random(0,255)}
-
-			while (color[1] + color[2] + color[3]) / 3 < 100 do
-				color = {math.random(0,255), math.random(0,255), math.random(0,255)}
-			end
-				
-			local p = planet:spawn{radius = radius, x = self.startPos[1], y = self.startPos[2], xvel = 0, yvel = 0, color}
-			gravity:add(p)
+			self:spawnPlanet(false, false)
+			self.wasDown = 0
+		elseif love.mouse.isDown(3) then 
+			self:spawnPlanet(false, true)
 			self.wasDown = 0
 		elseif love.keyboard.isDown('escape') then
 			self.wasDown = 0
