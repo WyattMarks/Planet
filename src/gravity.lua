@@ -16,6 +16,7 @@ function gravity:getByID(id)
 end
 
 function gravity:update(dt)
+	if debug.settings.pause then return end
 	dt = dt * debug.settings.timescale
 	for k,planet in pairs(self.planets) do
 		for j, other in pairs(self.planets) do

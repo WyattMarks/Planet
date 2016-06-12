@@ -36,6 +36,7 @@ function debug:add(key, value, changeable, v)
 end
 
 function debug:load()
+	self:add('(P) Pause', false, "toggle", 'p')
 	self:add('(F1) Velocity', false, "toggle", 'f1')
 	self:add('(F2) Trail', true, 'toggle', 'f2')
 	self:add('(F3) Trail Limit', true, 'toggle', 'f3')
