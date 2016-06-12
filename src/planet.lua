@@ -10,7 +10,7 @@ planet.trail = {} --the trail points
 planet.fixed = false
 
 function planet:spawn(args)
-	local new = table.copy(self)
+	local new = util:copyTable(self)
 	for k,v in pairs(args) do
 		new[k] = v
 	end

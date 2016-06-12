@@ -57,5 +57,18 @@ function util:getDistance(x,y,x2,y2)
     return math.sqrt(xDis^2 + yDis^2), xDis, yDis
 end
 
+function util:copyTable(tbl)
+	local new = {}
+	for k,v in pairs(tbl) do
+		if type(v) == "table" then
+			new[k] = self:copyTable(v)
+		else
+			new[k] = v
+		end
+	end
+	
+	return new
+end
+
 
 return util

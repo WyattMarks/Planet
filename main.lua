@@ -8,19 +8,6 @@ collision = require('src/collision')
 util = require('src/util')
 input = require("src/input")
 
-function table.copy(tbl)
-	local new = {}
-	for k,v in pairs(tbl) do
-		if type(v) == "table" then
-			new[k] = table.copy(v)
-		else
-			new[k] = v
-		end
-	end
-	
-	return new
-end
-
 function love.load()
 	math.randomseed(os.time())
 	debug:load()
